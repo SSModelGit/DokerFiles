@@ -1,15 +1,12 @@
-From osrf/ros:kinetic-desktop-full
+From ros:kinetic-robot-xenial
 RUN apt-get -y clean && \
     apt-get update && apt-get -y install locales && \
     locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 RUN apt-get update && apt-get install -y \
-	    tmux \
-	    zsh \
+      git \
 	    curl \
 	    wget \
-	    vim \
-	    emacs24 \
 	    sudo \
 	    libgl1-mesa-glx \
 	    libgl1-mesa-dri \
