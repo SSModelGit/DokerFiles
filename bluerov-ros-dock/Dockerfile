@@ -16,4 +16,4 @@ RUN /bin/bash -c "mkdir -p /catkin_ws/src/ && cd /catkin_ws/src/ && \
 COPY ./ros_entrypoint.sh /
 
 ENTRYPOINT ["/ros_entrypoint.sh"]
-CMD /bin/bash -c "roslaunch bluerov-ros-pkg apm.launch"
+CMD /bin/bash -c "roslaunch bluerov-ros-pkg apm-teleop.launch"
