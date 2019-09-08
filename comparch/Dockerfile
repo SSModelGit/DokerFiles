@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 RUN echo "root:olindock" | chpasswd
 RUN groupadd olin-dock
 
-RUN useradd -g olin-dock -ms /bin/bash compach
+RUN useradd -g olin-dock -ms /bin/bash comparch
 USER comparch
 WORKDIR /home/comparch
 
