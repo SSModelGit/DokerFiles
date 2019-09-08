@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y \
 	    libgl1-mesa-glx \
 	    libgl1-mesa-dri \
 	    mesa-utils \
-	    unzip \
+      unzip \
+      inetutils-ping \
 	    && rm -rf /var/likb/apt/lists/*
 
 # setup entrypoint
