@@ -18,7 +18,7 @@ ENV LANG en_US.UTF-8
 # install ros packages
 ENV ROS_DISTRO hydro
 RUN apt-get update && apt-get install -y \
-    ros-hydro-base \
+    ros-hydro-ros \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir /var/lib/apt/lists/partial
 
