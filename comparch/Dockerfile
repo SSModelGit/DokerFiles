@@ -12,8 +12,10 @@ RUN apt-get update && apt-get install -y \
 	tcl-dev tk-dev libgtk2.0-dev \
 	&& rm -rf /var/likb/apt/lists/*
 
-RUN useradd -ms /bin/bash comparch
-RUn echo "root:comparch" | chpasswd
+RUN echo "root:olindock" | chpasswd
+RUN groupadd olin-dock
+
+RUN useradd -g olin-dock -ms /bin/bash compach
 USER comparch
 WORKDIR /home/comparch
 
