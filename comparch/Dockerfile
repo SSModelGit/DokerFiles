@@ -50,6 +50,8 @@ RUN mkdir -p /home/comparch/installs && cd /home/comparch/installs && \
 	cd .. && wget http://gtkwave.sourceforge.net/gtkwave-3.3.103.tar.gz && \
 	tar xzf gtkwave-3.3.103.tar.gz && cd gtkwave-3.3.103 && \
 	./configure && make && sudo make install && \
+	# Install MARS, the MIPS assembly lang simulator
+cd /home/comparch && wget https://courses.missouristate.edu/KenVollmar/mars/MARS_4_5_Aug2014/Mars4_5.jar && \
 	# General setups
 	mkdir -p /home/comparch/.emacs.d/themes && \
 	wget https://raw.githubusercontent.com/bbatsov/zenburn-emacs/master/zenburn-theme.el && \
