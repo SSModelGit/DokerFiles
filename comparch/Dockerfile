@@ -1,22 +1,60 @@
-From ubuntu:xenial
+From ubuntu:bionic
+
+ENV HOME /home/comparch
+WORKDIR /home/comparch
+
 RUN apt-get -y clean && \
     apt-get update && apt-get -y install locales && \
 	locale-gen en_US.UTF-8
-
 ENV LANG en_US.UTF-8
-RUN apt-get update && apt-get install -y \
-	git	curl wget sudo libgl1-mesa-glx libgl1-mesa-dri mesa-utils unzip \
-	bison flex build-essential g++ libfl-dev \
-	libxrender1 libxtst6 libxi6 \
-	autoconf gperf \
-	tcl-dev tk-dev libgtk2.0-dev \
-	&& rm -rf /var/likb/apt/lists/*
 
-RUN echo "root:olindock" | chpasswd
-RUN groupadd olin-dock
+RUN export uid=1000 gid=1000 && \
+	mkdir -p /home/comparch && \
+	mkdir -p /etc/sudoers.d && \
+	echo "comparch:x:${uid}:${gid}:Developer,,,:/home/comparch:/bin/bash" >> /etc/passwd && \
+	echo "comparch:x:${uid}:" >> /etc/group && \
+	echo "comparch ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/comparch && \
+	chmod 0440 /etc/sudoers.d/comparch && \
+	chown ${uid}:${gid} -R /home/comparch && \
+	export DEBIAN_FRONTEND=noninteractive && \
+	apt-get update && \
+	apt-get -y --no-install-recommends upgrade && \
+	# install a whole lot of dependencies
+	apt-get install -y --no-install-recommends git curl wget sudo libgl1-mesa-glx \
+	libgl1-mesa-dri mesa-utils unzip inetutils-ping bison flex build-essential g++ \
+	libfl-dev libxrender1 libxtst6 libxi6 autoconf gperf tcl-dev tk-dev libgtk2.0-dev \
+	software-properties-common build-essential && \
+	# Install Emacs
+	add-apt-repository ppa:kelleyk/emacs && \
+	apt-get install -y --no-install-recommends emacs26 && \
+	# clean up temp files and caches
+	apt-get -y autoremove && \
+	apt-get -y clean && \
+	rm -rf /tmp/* && \
+	rm -rf /var/likb/apt/lists/*
 
-RUN useradd -g olin-dock -ms /bin/bash comparch
+ENV DISPLAY :1.0
+
 USER comparch
-WORKDIR /home/comparch
+RUN mkdir -p /home/comparch/installs && cd /home/comparch/installs && \
+  # Install verilator
+	git clone https://git.veripool.org/git/verilator && \
+	unset VERILATOR_ROOT && cd verilator && git checkout stable && \
+	autoconf && ./configure && make && sudo make install && cd .. && \
+  # Install verilog
+	git clone https://github.com/steveicarus/iverilog.git && cd iverilog && \
+	git checkout --track -b v10-branch origin/v10-branch && git pull && \
+	sh autoconf.sh && ./configure && make && sudo make install && cd .. && \
+	mkdir -p gtkw && cd gtkw && wget https://tukaani.org/xz/xz-5.2.4.tar.gz && \
+	tar xzf xz-5.2.4.tar.gz && cd xz-5.2.4 && ./configure && make && sudo make install && \
+	cd .. && wget http://gtkwave.sourceforge.net/gtkwave-3.3.103.tar.gz && \
+	tar xzf gtkwave-3.3.103.tar.gz && cd gtkwave-3.3.103 && \
+	./configure && make && sudo make install && \
+	# General setups
+	mkdir -p /home/comparch/.emacs.d/themes && \
+	wget https://raw.githubusercontent.com/bbatsov/zenburn-emacs/master/zenburn-theme.el && \
+	mv zenburn-theme.el ~/.emacs.d/themes/ && \
+	echo "alias em='emacs -q -l ~/.emacs.d/init.el'" >> ~/.bashrc && cd /home/comparch/.emacs.d/ && \
+	wget https://raw.githubusercontent.com/SSModelGit/configs/master/commonSetup/init.el
 
 CMD ["bash"]
