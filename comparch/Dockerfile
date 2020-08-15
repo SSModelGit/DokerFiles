@@ -36,6 +36,8 @@ RUN export uid=1000 gid=1000 && \
 ENV DISPLAY :1.0
 
 COPY ./.ca_bashrc /home/comparch/.bashrc
+COPY ./entry_warnings.sh /entry_warnings.sh
+RUN chmod +x /entry_warnings.sh
 
 USER comparch
 RUN mkdir -p /home/comparch/installs && cd /home/comparch/installs && \
@@ -62,4 +64,5 @@ cd /home/comparch && wget https://courses.missouristate.edu/KenVollmar/mars/MARS
 	wget https://raw.githubusercontent.com/SSModelGit/configs/master/commonSetup/init.el
 
 SHELL ["/bin/bash", "-c"]
+ENTRYPOINT ["/entry_warnings.sh"]
 CMD ["bash"]
