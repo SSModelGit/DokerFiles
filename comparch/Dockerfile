@@ -35,6 +35,8 @@ RUN export uid=1000 gid=1000 && \
 
 ENV DISPLAY :1.0
 
+COPY ./.ca_bashrc /home/comparch/.bashrc
+
 USER comparch
 RUN mkdir -p /home/comparch/installs && cd /home/comparch/installs && \
   # Install verilator
@@ -56,7 +58,8 @@ cd /home/comparch && wget https://courses.missouristate.edu/KenVollmar/mars/MARS
 	mkdir -p /home/comparch/.emacs.d/themes && \
 	wget https://raw.githubusercontent.com/bbatsov/zenburn-emacs/master/zenburn-theme.el && \
 	mv zenburn-theme.el ~/.emacs.d/themes/ && \
-	echo "alias em='emacs -q -l ~/.emacs.d/init.el'" >> ~/.bashrc && cd /home/comparch/.emacs.d/ && \
+	cd /home/comparch/.emacs.d/ && \
 	wget https://raw.githubusercontent.com/SSModelGit/configs/master/commonSetup/init.el
 
+SHELL ["/bin/bash", "-c"]
 CMD ["bash"]
