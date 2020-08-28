@@ -20,10 +20,10 @@ RUN export uid=1000 gid=1000 && \
 	apt-get update && \
 	apt-get -y --no-install-recommends upgrade && \
 	# install a whole lot of dependencies
-	apt-get install -y --no-install-recommends git curl wget sudo libgl1-mesa-glx \
+	apt-get install -y --no-install-recommends git curl wget tmux vim sudo libgl1-mesa-glx \
 	libgl1-mesa-dri mesa-utils unzip inetutils-ping bison flex build-essential g++ \
 	libfl-dev libxrender1 libxtst6 libxi6 autoconf gperf tcl-dev tk-dev libgtk2.0-dev \
-	software-properties-common build-essential && \
+	software-properties-common gpg-agent build-essential && \
 	# Install Emacs
 	add-apt-repository ppa:kelleyk/emacs && \
 	apt-get install -y --no-install-recommends emacs26 && \
@@ -57,6 +57,7 @@ RUN mkdir -p /home/comparch/installs && cd /home/comparch/installs && \
 	# Install MARS, the MIPS assembly lang simulator
 cd /home/comparch && wget https://courses.missouristate.edu/KenVollmar/mars/MARS_4_5_Aug2014/Mars4_5.jar && \
 	# General setups
+  wget -O .tmux.conf http://www.jontse.com/notes/files/tmux.conf && \
 	mkdir -p /home/comparch/.emacs.d/themes && \
 	wget https://raw.githubusercontent.com/bbatsov/zenburn-emacs/master/zenburn-theme.el && \
 	mv zenburn-theme.el ~/.emacs.d/themes/ && \
