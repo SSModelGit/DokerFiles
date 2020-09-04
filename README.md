@@ -3,6 +3,6 @@
 
 My repository for Dockerfiles and associated other files.
 
-Each branch of the repository holds the development branch of the Dockerfile associated with the branch name, i.e. the ros branch holds the dev branch of the ros-dock Dockerfile, etc.
+This was supposed to just be a personal repo to host my shoddy hacks of Dockerfiles, but it seems like I'll be hosting the CompArch f2020 Docker stuff for a bit. If you're here for that, please head to the wiki located [here](wiki).
 
 The master branch is connected to automated building on Docker Hub.
